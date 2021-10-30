@@ -22,6 +22,17 @@ const main = async () => {
    */
   let waveTxn = await waveContract.wave('A message!');
   await waveTxn.wait();
+  try {
+    waveTxn = await waveContract.wave('A message!');
+    await waveTxn.wait();
+  } catch (err) {
+    if (
+      err.message ===
+      "VM Exception while processing transaction: reverted with reason string 'Wait 15m'"
+    ) {
+      console.log('Successfuly blocked spammer');
+    }
+  }
 
   /*
    * Get Contract balance to see what happened!
